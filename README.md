@@ -1441,6 +1441,14 @@ That's it! You should now have an overview of the possibilities with Spring Data
 * [Spring Data ArangoDB](https://github.com/arangodb/spring-data)
 * [ArangoDB Java Driver](https://github.com/arangodb/arangodb-java-driver)
 
+# Docker
+
+docker rm $(docker ps -a -q -f status=exited)
+docker sytem prune
+
+docker build -t spring-data-demo .
+docker run --network service-back_default -p 8080:8080 spring-data-demo
+
 
 # Use API
 
@@ -1449,3 +1457,25 @@ http://localhost:8080/api/locations/all
 http://localhost:8080/api/locations/near?longitude=-5.581312&latitude=54.368321
 
 http://localhost:8080/api/locations/within?longitude=-5.581312&latitude=54.368321&distanceKm=50
+
+# VM Oracle
+sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 8080 -j ACCEPT
+sudo netfilter-persistent save
+sudo iptables -L -n -v
+
+
+scp .\docker-compose.yml.ubuntu.v1 ubuntu@138.2.172.84:/home/ubuntu/projects/docker-compose.yml
+scp .\target\*.jar ubuntu@138.2.172.84:/home/ubuntu/projects/target
+scp .\Dockerfile ubuntu@138.2.172.84:/home/ubuntu/projects
+
+
+créer les volumes sous Ubuntu
+docker volume create arangodb_data_container
+docker volume create arangodb_apps_data_container
+
+https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04
+
+https://cloud.oracle.com/?region=eu-frankfurt-1&bdcstate=default&cloudshell=true
+
+
+http://138.2.172.84:8080/api/locations/all

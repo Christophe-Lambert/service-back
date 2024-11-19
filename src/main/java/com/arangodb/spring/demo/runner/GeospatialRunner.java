@@ -35,6 +35,7 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.data.geo.Polygon;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -52,16 +53,17 @@ public class GeospatialRunner implements CommandLineRunner {
     @Override
     public void run(final String... args) throws Exception {
         System.out.println("# Geospatial");
+        LocalDateTime createdAt = LocalDateTime.now();
 
         repository.saveAll(Arrays.asList(
-                new Location("Dragonstone",     new Point(-6.815096, 55.167801)),
-                new Location("King's Landing",  new Point(18.110189, 42.639752)),
-                new Location("The Red Keep",    new Point(14.446442, 35.896447)),
-                new Location("Yunkai",          new Point(-7.129532, 31.046642)),
-                new Location("Astapor",         new Point(-9.774249, 31.50974)),
-                new Location("Winterfell",      new Point(-5.581312, 54.368321)),
-                new Location("Vaes Dothrak",    new Point(-6.096125, 54.16776)),
-                new Location("Beyond the wall", new Point(-21.094093, 64.265473))
+                new Location("Dragonstone", createdAt, new Point(-6.815096, 55.167801)),
+                new Location("King's Landing", createdAt,  new Point(18.110189, 42.639752)),
+                new Location("The Red Keep", createdAt,    new Point(14.446442, 35.896447)),
+                new Location("Yunkai", createdAt,          new Point(-7.129532, 31.046642)),
+                new Location("Astapor", createdAt,         new Point(-9.774249, 31.50974)),
+                new Location("Winterfell", createdAt,      new Point(-5.581312, 54.368321)),
+                new Location("Vaes Dothrak", createdAt,    new Point(-6.096125, 54.16776)),
+                new Location("Beyond the wall", createdAt, new Point(-21.094093, 64.265473))
         ));
 
         System.out.println("## Find the first 5 locations near 'Winterfell'");

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -24,6 +25,16 @@ public class LocationController {
     @GetMapping("/all")
     public List<Location> getAllLocations() {
         return locationService.findAll();
+    }
+
+    @PostMapping("/startPositions")
+    public Mono<Void> startGeneratingPositions(@RequestParam String name) {
+        return locationService.startAddPositions(name);
+    }
+
+    @PostMapping("/addPosition")
+    public void addPosition(@RequestParam String name) {
+        locationService.addPosition(name);
     }
 
     @GetMapping("/near")

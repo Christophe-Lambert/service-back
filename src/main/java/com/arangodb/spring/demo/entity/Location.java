@@ -25,6 +25,7 @@ import com.arangodb.springframework.annotation.GeoIndexed;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -38,12 +39,15 @@ public class Location {
 
     private final String name;
 
+    private final LocalDateTime createdAt;
+
     @GeoIndexed(geoJson = true)
     private final Point location;
 
-    public Location(final String name, final Point location) {
+    public Location(final String name, LocalDateTime createdAt, final Point location) {
         super();
         this.name = name;
+        this.createdAt = createdAt;
         this.location = location;
     }
 
@@ -63,12 +67,17 @@ public class Location {
         return location;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public String toString() {
         return "Location{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", location=" + location +
+                ", createdAt=" + createdAt +  // Affichage du timestamp
                 '}';
     }
 
@@ -77,11 +86,14 @@ public class Location {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Location location1 = (Location) o;
-        return Objects.equals(id, location1.id) && Objects.equals(name, location1.name) && Objects.equals(location, location1.location);
+        return Objects.equals(id, location1.id) &&
+                Objects.equals(name, location1.name) &&
+                Objects.equals(location, location1.location) &&
+                Objects.equals(createdAt, location1.createdAt);  // Comparaison du timestamp
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, location);
+        return Objects.hash(id, name, location, createdAt);
     }
 }

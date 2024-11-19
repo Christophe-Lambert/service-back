@@ -20,6 +20,15 @@ services:
       - "8080:8080"
 volumes:
   arangodb_data_container:
-    external: true
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ubuntu/projects/arangodb_data
+
   arangodb_apps_data_container:
-    external: true
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ubuntu/projects/arangodb_apps_data
