@@ -1444,15 +1444,24 @@ That's it! You should now have an overview of the possibilities with Spring Data
 # Docker
 
 docker rm $(docker ps -a -q -f status=exited)
+
 docker sytem prune
 
 docker build -t spring-data-demo .
 docker run --network service-back_default -p 8080:8080 spring-data-demo
 
+# Docker compose
+
+mvn clean install 
+docker sytem prune
+
+docker-compose up --build
 
 # Use API
 
 http://localhost:8080/api/locations/all
+
+http://localhost:8080/api/locations/startPositions
 
 http://localhost:8080/api/locations/near?longitude=-5.581312&latitude=54.368321
 
@@ -1479,3 +1488,7 @@ https://cloud.oracle.com/?region=eu-frankfurt-1&bdcstate=default&cloudshell=true
 
 
 http://138.2.172.84:8080/api/locations/all
+
+## Github
+Creer une connexion
+ssh -T git@github.com

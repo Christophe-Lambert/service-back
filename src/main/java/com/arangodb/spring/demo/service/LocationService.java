@@ -10,6 +10,7 @@ import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.data.geo.Polygon;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -26,6 +27,9 @@ public class LocationService {
 
     @Autowired
     private LocationRepository repository;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     private static final double PARIS_LAT = 48.8566;  // Latitude de Paris
     private static final double PARIS_LON = 2.3522;  // Longitude de Paris
@@ -57,9 +61,13 @@ public class LocationService {
                 double[] newCoords = getRandomCoordinates(PARIS_LAT, PARIS_LON, MAX_RADIUS_KM);
                 double newLat = newCoords[0];
                 double newLon = newCoords[1];
+                Location location = new Location(name, LocalDateTime.now(), new Point(newLon, newLat));
 
-                // Sauvegarder la nouvelle position dans la base de données
-                repository.save(new Location(name, LocalDateTime.now(), new Point(newLon, newLat)));
+                // Enregistrer dans la base de données
+                repository.save(location);
+
+                // Envoyer au topic WebSocket
+                messagingTemplate.convertAndSend("/topic/locations", location);
 
                 // Attendre 3 secondes avant de générer la prochaine position
                 try {
