@@ -1441,6 +1441,15 @@ That's it! You should now have an overview of the possibilities with Spring Data
 * [Spring Data ArangoDB](https://github.com/arangodb/spring-data)
 * [ArangoDB Java Driver](https://github.com/arangodb/arangodb-java-driver)
 
+# Certificat
+https://www.tbs-certificats.com/FAQ/fr/openssl-windows.html
+openssl genrsa -out private.key 2048
+openssl req -x509 -new -nodes -key private.key -sha256 -days 36500 -out certificate.crt
+==> Common name avec IP 138.2.172.84
+openssl pkcs12 -export -in certificate.crt -inkey private.key -out keystore.p12 -name "map-viewer"
+pwd: map-viewer
+
+
 # Docker
 
 docker rm $(docker ps -a -q -f status=exited)
@@ -1474,8 +1483,8 @@ sudo iptables -L -n -v
 
 
 scp .\docker-compose.yml.ubuntu.v1 ubuntu@138.2.172.84:/home/ubuntu/projects/docker-compose.yml
-scp .\target\*.jar ubuntu@138.2.172.84:/home/ubuntu/projects/target
 scp .\Dockerfile ubuntu@138.2.172.84:/home/ubuntu/projects
+scp .\target\*.jar ubuntu@138.2.172.84:/home/ubuntu/projects/target
 
 
 créer les volumes sous Ubuntu
@@ -1489,6 +1498,8 @@ https://cloud.oracle.com/?region=eu-frankfurt-1&bdcstate=default&cloudshell=true
 
 http://138.2.172.84:8080/api/locations/all
 
+http://138.2.172.84:8080/api/locations/startPositions
+
 ## Github
 Creer une connexion
-ssh -T git@github.com
+ssh -T git@github.com 
