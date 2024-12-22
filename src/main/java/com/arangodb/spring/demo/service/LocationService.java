@@ -151,4 +151,8 @@ public class LocationService {
     public Iterable<Location> findLocationsWithinPolygon(Polygon polygon) {
         return repository.findByLocationWithin(polygon);
     }
+
+    public Mono<Void> deleteAllPositions() {
+        return Mono.fromRunnable(() -> repository.deleteAll());
+    }
 }

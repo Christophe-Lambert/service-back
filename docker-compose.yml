@@ -18,6 +18,9 @@ services:
       - arangodb_db_container
     ports:
       - "8080:8080"
+      - "8443:8443"
+    volumes:
+      - D:\Projects\test-angular\service-back\src\main\resources\application-docker.properties:/app/config/application.properties
 volumes:
   arangodb_data_container:
     external: true

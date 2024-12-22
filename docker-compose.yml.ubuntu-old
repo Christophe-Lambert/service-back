@@ -1,7 +1,6 @@
 version: '3.7'
 services:
   arangodb_db_container:
-    container_name: arangodb_db_container
     image: arangodb:latest
     environment:
       ARANGO_ROOT_PASSWORD: rootpassword
@@ -10,17 +9,21 @@ services:
     volumes:
       - arangodb_data_container:/var/lib/arangodb3
       - arangodb_apps_data_container:/var/lib/arangodb3-apps
+
   springboot_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: openjdk:21-jdk-slim
     depends_on:
       - arangodb_db_container
+    environment:
+      SPRING_DATA_ARANGODB_HOST: arangodb_db_container
+      SPRING_DATA_ARANGODB_PORT: 8529
+      SPRING_DATA_ARANGODB_USERNAME: root
+      SPRING_DATA_ARANGODB_PASSWORD: rootpassword
     ports:
       - "8080:8080"
-      - "8443:8443"
     volumes:
-      - /home/ubuntu/projects/application.properties.vm.ssl:/app/config/application.properties
+      - ./target/spring-data-demo-1.0.0.jar:/app/spring-data-demo-1.0.0.jar  # Chemin de votre application Spring Boot
+    command: ["java", "-Djava.net.preferIPv4Stack=true", "-Dspring.profiles.active=debug", "-Dspring.data.arangodb.host=arangodb_db_container", "-Dspring.data.arangodb.port=8529", "-Dspring.data.arangodb.username=root", "-Dspring.data.arangodb.password=rootpassword", "-jar", "/app/spring-data-demo-1.0.0.jar"]  # Remplacez le nom du JAR
 volumes:
   arangodb_data_container:
     driver: local

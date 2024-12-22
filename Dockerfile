@@ -8,4 +8,5 @@ COPY target/*.jar /app/app.jar
 EXPOSE 8080
 
 # Commande pour exécuter l'application
-ENTRYPOINT ["java", "-Dspring.profiles.active=debug", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+CMD ["--spring.profiles.active=debug", "--spring.config.location=/app/config/application.properties"]

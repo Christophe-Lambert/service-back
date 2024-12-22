@@ -1449,6 +1449,13 @@ openssl req -x509 -new -nodes -key private.key -sha256 -days 36500 -out certific
 openssl pkcs12 -export -in certificate.crt -inkey private.key -out keystore.p12 -name "map-viewer"
 pwd: map-viewer
 
+## Cloud
+certbot certonly --standalone -d softdata.ddnsking.com
+
+
+# DNS
+https://my.noip.com/
+compte google
 
 # Docker
 
@@ -1466,6 +1473,8 @@ docker sytem prune
 
 docker-compose up --build
 
+docker exec -it service-back-springboot_app-1 bash
+
 # Use API
 
 http://localhost:8080/api/locations/all
@@ -1478,13 +1487,16 @@ http://localhost:8080/api/locations/within?longitude=-5.581312&latitude=54.36832
 
 # VM Oracle
 sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 8080 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 8443 -j ACCEPT
 sudo netfilter-persistent save
 sudo iptables -L -n -v
 
 
-scp .\docker-compose.yml.ubuntu.v1 ubuntu@138.2.172.84:/home/ubuntu/projects/docker-compose.yml
+scp .\docker-compose.yml.ubuntu ubuntu@138.2.172.84:/home/ubuntu/projects/docker-compose.yml
 scp .\Dockerfile ubuntu@138.2.172.84:/home/ubuntu/projects
 scp .\target\*.jar ubuntu@138.2.172.84:/home/ubuntu/projects/target
+scp .\src\main\resources\application.properties.vm.ssl ubuntu@138.2.172.84:/home/ubuntu/projects
+
 
 
 créer les volumes sous Ubuntu
@@ -1499,6 +1511,30 @@ https://cloud.oracle.com/?region=eu-frankfurt-1&bdcstate=default&cloudshell=true
 http://138.2.172.84:8080/api/locations/all
 
 http://138.2.172.84:8080/api/locations/startPositions
+
+Via DNS:
+http://softdata.ddnsking.com:8080/api/locations/all
+
+https://my.noip.com/
+gmail
+
+https://www.duckdns.org/domains
+gmail
+softdataservices.duckdns.org
+
+certbot certonly --manual --preferred-challenges dns -d softdataservices.duckdns.org
+
+https://www.duckdns.org/update?domains=softdataservices&token=db803873-1f14-4e92-8407-ce54510f4c3e&txt=vnN0SGaBGESuamx_hCQqcuGU8bvJuIHkekPzSMNdYD4&verbose=true
+
+//dig TXT _acme-challenge.softdataservices.duckdns.org
+
+Successfully received certificate.
+Certificate is saved at: C:\Certbot\live\softdataservices.duckdns.org\fullchain.pem
+Key is saved at:         C:\Certbot\live\softdataservices.duckdns.org\privkey.pem
+This certificate expires on 2025-03-14.
+
+openssl pkcs12 -export -in C:\Certbot\live\softdataservices.duckdns.org\fullchain.pem -inkey C:\Certbot\live\softdataservices.duckdns.org\privkey.pem -out keystore-vm.p12 -name "softdataservices.duckdns.org"
+
 
 ## Github
 Creer une connexion

@@ -5,12 +5,7 @@ import com.arangodb.spring.demo.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.data.geo.Polygon;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -72,5 +67,10 @@ public class LocationController {
     public Iterable<Location> getLocationsWithinPolygon(@RequestBody List<Point> points) {
         Polygon polygon = new Polygon(points);
         return locationService.findLocationsWithinPolygon(polygon);
+    }
+
+    @DeleteMapping("/deleteAllPositions")
+    public Mono<Void> deleteAllPositions() {
+        return locationService.deleteAllPositions();
     }
 }
