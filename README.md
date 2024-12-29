@@ -206,7 +206,7 @@ extends `ArangoRepository`. This gives us access to CRUD operations, paging, and
 ```java
 package com.arangodb.spring.demo.repository;
 
-import com.arangodb.spring.demo.entity.Character;
+import entity.com.mapviewer.Character;
 import com.arangodb.springframework.repository.ArangoRepository;
 
 public interface CharacterRepository extends ArangoRepository<Character, String> {
@@ -227,7 +227,7 @@ our configuration class `DemoConfiguration`.
 ```java
 package com.arangodb.spring.demo.runner;
 
-import com.arangodb.spring.demo.repository.CharacterRepository;
+import repository.com.mapviewer.CharacterRepository;
 import com.arangodb.springframework.core.ArangoOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -236,15 +236,15 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.arangodb.spring.demo")
 public class CrudRunner implements CommandLineRunner {
 
-    @Autowired
-    private ArangoOperations operations;
-    @Autowired
-    private CharacterRepository repository;
+  @Autowired
+  private ArangoOperations operations;
+  @Autowired
+  private CharacterRepository repository;
 
-    @Override
-    public void run(final String... args) throws Exception {
+  @Override
+  public void run(final String... args) throws Exception {
 
-    }
+  }
 }
 ```
 
@@ -260,8 +260,8 @@ database. We can then use this id to find our persisted entity.
 ```java
 package com.arangodb.spring.demo.runner;
 
-import com.arangodb.spring.demo.entity.Character;
-import com.arangodb.spring.demo.repository.CharacterRepository;
+import entity.com.mapviewer.Character;
+import repository.com.mapviewer.CharacterRepository;
 import com.arangodb.springframework.core.ArangoOperations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -272,28 +272,28 @@ import java.util.Optional;
 @ComponentScan("com.arangodb.spring.demo")
 public class CrudRunner implements CommandLineRunner {
 
-    @Autowired
-    private ArangoOperations operations;
-    @Autowired
-    private CharacterRepository repository;
+  @Autowired
+  private ArangoOperations operations;
+  @Autowired
+  private CharacterRepository repository;
 
-    @Override
-    public void run(String... args) throws Exception {
-        // first drop the database so that we can run this multiple times with the same dataset
-        operations.dropDatabase();
+  @Override
+  public void run(String... args) throws Exception {
+    // first drop the database so that we can run this multiple times with the same dataset
+    operations.dropDatabase();
 
-        // save a single entity in the database
-        // there is no need of creating the collection first. This happen automatically
-        final Character nedStark = new Character("Ned", "Stark", true, 41);
-        repository.save(nedStark);
-        // the generated id from the database is set in the original entity
-        System.out.println(String.format("Ned Stark saved in the database with id: '%s'", nedStark.getId()));
+    // save a single entity in the database
+    // there is no need of creating the collection first. This happen automatically
+    final Character nedStark = new Character("Ned", "Stark", true, 41);
+    repository.save(nedStark);
+    // the generated id from the database is set in the original entity
+    System.out.println(String.format("Ned Stark saved in the database with id: '%s'", nedStark.getId()));
 
-        // let us take a look whether we can find Ned Stark in the database
-        final Optional<Character> foundNed = repository.findById(nedStark.getId());
-        assert foundNed.isPresent();
-        System.out.println(String.format("Found %s", foundNed.get()));
-    }
+    // let us take a look whether we can find Ned Stark in the database
+    final Optional<Character> foundNed = repository.findById(nedStark.getId());
+    assert foundNed.isPresent();
+    System.out.println(String.format("Found %s", foundNed.get()));
+  }
 }
 ```
 
@@ -459,11 +459,8 @@ package com.arangodb.spring.demo.runner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 
-import com.arangodb.spring.demo.entity.Character;
-import com.arangodb.spring.demo.repository.CharacterRepository;
+import repository.com.mapviewer.CharacterRepository;
 
 @ComponentScan("com.arangodb.spring.demo")
 public class ByExampleRunner implements CommandLineRunner {
@@ -612,23 +609,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.arangodb.spring.demo.entity.Character;
-import com.arangodb.spring.demo.repository.CharacterRepository;
+import entity.com.mapviewer.Character;
+import repository.com.mapviewer.CharacterRepository;
 
 @ComponentScan("com.arangodb.spring.demo")
 public class DerivedQueryRunner implements CommandLineRunner {
 
-    @Autowired
-    private CharacterRepository repository;
+  @Autowired
+  private CharacterRepository repository;
 
-    @Override
-    public void run(final String... args) throws Exception {
-        System.out.println("# Derived queries");
+  @Override
+  public void run(final String... args) throws Exception {
+    System.out.println("# Derived queries");
 
-        System.out.println("## Find all characters with surname 'Lannister'");
-        Iterable<Character> lannisters = repository.findBySurname("Lannister");
-        lannisters.forEach(System.out::println);
-    }
+    System.out.println("## Find all characters with surname 'Lannister'");
+    Iterable<Character> lannisters = repository.findBySurname("Lannister");
+    lannisters.forEach(System.out::println);
+  }
 }
 ```
 
@@ -819,32 +816,33 @@ package com.arangodb.spring.demo.entity;
 import com.arangodb.springframework.annotation.Edge;
 import com.arangodb.springframework.annotation.From;
 import com.arangodb.springframework.annotation.To;
+import com.mapviewer.entity.Character;
 import org.springframework.data.annotation.Id;
 
 @Edge
 public class ChildOf {
 
-    @Id
-    private String id;
+  @Id
+  private String id;
 
-    @From
-    private Character child;
+  @From
+  private com.mapviewer.entity.Character child;
 
-    @To
-    private Character parent;
+  @To
+  private com.mapviewer.entity.Character parent;
 
-    public ChildOf(final Character child, final Character parent) {
-        super();
-        this.child = child;
-        this.parent = parent;
-    }
+  public ChildOf(final com.mapviewer.entity.Character child, final Character parent) {
+    super();
+    this.child = child;
+    this.parent = parent;
+  }
 
-    // setter & getter
+  // setter & getter
 
-    @Override
-    public String toString() {
-        return "ChildOf [id=" + id + ", child=" + child + ", parent=" + parent + "]";
-    }
+  @Override
+  public String toString() {
+    return "ChildOf [id=" + id + ", child=" + child + ", parent=" + parent + "]";
+  }
 
 }
 ```
@@ -855,7 +853,7 @@ created `CharacterRepository`.
 ```java
 package com.arangodb.spring.demo.repository;
 
-import com.arangodb.spring.demo.entity.ChildOf;
+import entity.com.mapviewer.ChildOf;
 import com.arangodb.springframework.repository.ArangoRepository;
 
 public interface ChildOfRepository extends ArangoRepository<ChildOf, String> {
@@ -886,9 +884,10 @@ specific `Character`. Then we create instances of `ChildOf` and save them throug
 ```java
 package com.arangodb.spring.demo.runner;
 
-import com.arangodb.spring.demo.entity.ChildOf;
-import com.arangodb.spring.demo.repository.CharacterRepository;
-import com.arangodb.spring.demo.repository.ChildOfRepository;
+import entity.com.mapviewer.ChildOf;
+import repository.com.mapviewer.CharacterRepository;
+import repository.com.mapviewer.ChildOfRepository;
+import com.mapviewer.runner.CrudRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
@@ -898,40 +897,40 @@ import java.util.Arrays;
 @ComponentScan("com.arangodb.spring.demo")
 public class RelationsRunner implements CommandLineRunner {
 
-    @Autowired
-    private CharacterRepository characterRepo;
-    @Autowired
-    private ChildOfRepository childOfRepo;
+  @Autowired
+  private CharacterRepository characterRepo;
+  @Autowired
+  private ChildOfRepository childOfRepo;
 
-    @Override
-    public void run(final String... args) throws Exception {
-        System.out.println("# Relations");
-        characterRepo.saveAll(CrudRunner.createCharacters());
-  
-        // first create some relations for the Starks and Lannisters
-        Character ned = characterRepo.findByNameAndSurname("Ned", "Stark").get();
-        Character catelyn = characterRepo.findByNameAndSurname("Catelyn", "Stark").get();
-        Character robb = characterRepo.findByNameAndSurname("Robb", "Stark").get();
-        childOfRepo.saveAll(Arrays.asList(new ChildOf(robb, ned), new ChildOf(robb, catelyn)));
-        Character sansa = characterRepo.findByNameAndSurname("Sansa", "Stark").get();
-        childOfRepo.saveAll(Arrays.asList(new ChildOf(sansa, ned), new ChildOf(sansa, catelyn)));
-        Character arya = characterRepo.findByNameAndSurname("Arya", "Stark").get();
-        childOfRepo.saveAll(Arrays.asList(new ChildOf(arya, ned), new ChildOf(arya, catelyn)));
-        Character bran = characterRepo.findByNameAndSurname("Bran", "Stark").get();
-        childOfRepo.saveAll(Arrays.asList(new ChildOf(bran, ned), new ChildOf(bran, catelyn)));
-        Character jon = characterRepo.findByNameAndSurname("Jon", "Snow").get();
-        childOfRepo.save(new ChildOf(jon, ned));
-  
-        Character tywin = characterRepo.findByNameAndSurname("Tywin", "Lannister").get();
-        Character jaime = characterRepo.findByNameAndSurname("Jaime", "Lannister").get();
-        childOfRepo.save(new ChildOf(jaime, tywin));
-        Character cersei = characterRepo.findByNameAndSurname("Cersei", "Lannister").get();
-        childOfRepo.save(new ChildOf(cersei, tywin));
-        Character joffrey = characterRepo.findByNameAndSurname("Joffrey", "Baratheon").get();
-        childOfRepo.saveAll(Arrays.asList(new ChildOf(joffrey, jaime), new ChildOf(joffrey, cersei)));
-        Character tyrion = characterRepo.findByNameAndSurname("Tyrion", "Lannister").get();
-        childOfRepo.save(new ChildOf(tyrion, tywin));
-    }
+  @Override
+  public void run(final String... args) throws Exception {
+    System.out.println("# Relations");
+    characterRepo.saveAll(CrudRunner.createCharacters());
+
+    // first create some relations for the Starks and Lannisters
+    Character ned = characterRepo.findByNameAndSurname("Ned", "Stark").get();
+    Character catelyn = characterRepo.findByNameAndSurname("Catelyn", "Stark").get();
+    Character robb = characterRepo.findByNameAndSurname("Robb", "Stark").get();
+    childOfRepo.saveAll(Arrays.asList(new ChildOf(robb, ned), new ChildOf(robb, catelyn)));
+    Character sansa = characterRepo.findByNameAndSurname("Sansa", "Stark").get();
+    childOfRepo.saveAll(Arrays.asList(new ChildOf(sansa, ned), new ChildOf(sansa, catelyn)));
+    Character arya = characterRepo.findByNameAndSurname("Arya", "Stark").get();
+    childOfRepo.saveAll(Arrays.asList(new ChildOf(arya, ned), new ChildOf(arya, catelyn)));
+    Character bran = characterRepo.findByNameAndSurname("Bran", "Stark").get();
+    childOfRepo.saveAll(Arrays.asList(new ChildOf(bran, ned), new ChildOf(bran, catelyn)));
+    Character jon = characterRepo.findByNameAndSurname("Jon", "Snow").get();
+    childOfRepo.save(new ChildOf(jon, ned));
+
+    Character tywin = characterRepo.findByNameAndSurname("Tywin", "Lannister").get();
+    Character jaime = characterRepo.findByNameAndSurname("Jaime", "Lannister").get();
+    childOfRepo.save(new ChildOf(jaime, tywin));
+    Character cersei = characterRepo.findByNameAndSurname("Cersei", "Lannister").get();
+    childOfRepo.save(new ChildOf(cersei, tywin));
+    Character joffrey = characterRepo.findByNameAndSurname("Joffrey", "Baratheon").get();
+    childOfRepo.saveAll(Arrays.asList(new ChildOf(joffrey, jaime), new ChildOf(joffrey, cersei)));
+    Character tyrion = characterRepo.findByNameAndSurname("Tyrion", "Lannister").get();
+    childOfRepo.save(new ChildOf(tyrion, tywin));
+  }
 }
 ```
 
@@ -1035,8 +1034,7 @@ Now we create a new `CommandLineRunner` and add it to our `DemoApplication`.
 ```java
 package com.arangodb.spring.demo.runner;
 
-import com.arangodb.spring.demo.entity.Character;
-import com.arangodb.spring.demo.repository.CharacterRepository;
+import repository.com.mapviewer.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
@@ -1274,7 +1272,7 @@ Create the corresponding `LocationRepository` repository:
 ```java
 package com.arangodb.spring.demo.repository;
 
-import com.arangodb.spring.demo.entity.Location;
+import entity.com.mapviewer.Location;
 import com.arangodb.springframework.repository.ArangoRepository;
 
 public interface LocationRepository extends ArangoRepository<Location, String> {
@@ -1288,8 +1286,8 @@ some popular locations from Game of Thrones with the coordinates of their real c
 ```java
 package com.arangodb.spring.demo.runner;
 
-import com.arangodb.spring.demo.entity.Location;
-import com.arangodb.spring.demo.repository.LocationRepository;
+import entity.com.mapviewer.Location;
+import repository.com.mapviewer.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
@@ -1297,24 +1295,24 @@ import java.util.Arrays;
 
 public class GeospatialRunner implements CommandLineRunner {
 
-    @Autowired
-    private LocationRepository repository;
+  @Autowired
+  private LocationRepository repository;
 
-    @Override
-    public void run(final String... args) throws Exception {
-        System.out.println("# Geospatial");
+  @Override
+  public void run(final String... args) throws Exception {
+    System.out.println("# Geospatial");
 
-        repository.saveAll(Arrays.asList(
-                new Location("Dragonstone",     new Point(-6.815096, 55.167801)),
-                new Location("King's Landing",  new Point(18.110189, 42.639752)),
-                new Location("The Red Keep",    new Point(14.446442, 35.896447)),
-                new Location("Yunkai",          new Point(-7.129532, 31.046642)),
-                new Location("Astapor",         new Point(-9.774249, 31.50974)),
-                new Location("Winterfell",      new Point(-5.581312, 54.368321)),
-                new Location("Vaes Dothrak",    new Point(-6.096125, 54.16776)),
-                new Location("Beyond the wall", new Point(-21.094093, 64.265473))
-        ));
-    }
+    repository.saveAll(Arrays.asList(
+            new Location("Dragonstone", new Point(-6.815096, 55.167801)),
+            new Location("King's Landing", new Point(18.110189, 42.639752)),
+            new Location("The Red Keep", new Point(14.446442, 35.896447)),
+            new Location("Yunkai", new Point(-7.129532, 31.046642)),
+            new Location("Astapor", new Point(-9.774249, 31.50974)),
+            new Location("Winterfell", new Point(-5.581312, 54.368321)),
+            new Location("Vaes Dothrak", new Point(-6.096125, 54.16776)),
+            new Location("Beyond the wall", new Point(-21.094093, 64.265473))
+    ));
+  }
 }
 ```
 
@@ -1525,17 +1523,42 @@ softdataservices.duckdns.org
 certbot certonly --manual --preferred-challenges dns -d softdataservices.duckdns.org
 
 https://www.duckdns.org/update?domains=softdataservices&token=db803873-1f14-4e92-8407-ce54510f4c3e&txt=vnN0SGaBGESuamx_hCQqcuGU8bvJuIHkekPzSMNdYD4&verbose=true
+ou
+D:\Projects\test-angular\service-back\update_dns.bat DY6YLprJMo0BPlmWJ9doe6CNGKhGU4wDtDatDhW3G54
+
 
 //dig TXT _acme-challenge.softdataservices.duckdns.org
+Recupérer le TXT: nslookup -type=TXT _acme-challenge.softdataservices.duckdns.org
+Résultat: vnN0SGaBGESuamx_hCQqcuGU8bvJuIHkekPzSMNdYD4
+Propagation: https://www.whatsmydns.net/#A/softdataservices.duckdns.org
 
 Successfully received certificate.
 Certificate is saved at: C:\Certbot\live\softdataservices.duckdns.org\fullchain.pem
 Key is saved at:         C:\Certbot\live\softdataservices.duckdns.org\privkey.pem
-This certificate expires on 2025-03-14.
+This certificate expires on 2025-03-25.
+These files will be updated when the certificate renews.
+
+NEXT STEPS:
+- This certificate will not be renewed automatically. Autorenewal of --manual certificates requires the use of an authentication hook script (--manual-auth-hook) but one was not provided. To renew this certificate, repeat this same certbot command before the certificate's expiry date.
 
 openssl pkcs12 -export -in C:\Certbot\live\softdataservices.duckdns.org\fullchain.pem -inkey C:\Certbot\live\softdataservices.duckdns.org\privkey.pem -out keystore-vm.p12 -name "softdataservices.duckdns.org"
+
+
+Renouvellement:
+// pas ceci :certbot certonly --manual --preferred-challenges dns -d softdataservices.duckdns.org --manual-auth-hook "D:\Projects\test-angular\service-back\update_dns.bat" --manual-cleanup-hook "echo DNS cleanup not required" --non-interactive --agree-tos --email christophe.lambert.7110@gmail.com
+certbot renew --manual-auth-hook "D:\Projects\test-angular\service-back\update_dns.bat" --manual-cleanup-hook "echo DNS cleanup not required" --preferred-challenges dns --non-interactive --agree-tos --force-renewal
 
 
 ## Github
 Creer une connexion
 ssh -T git@github.com 
+
+## TODO LIST
+Multi-colors
+Tables
+IA LLM
+Detailed pointer (adresse postale)
+
+
+
+Proximité

@@ -18,10 +18,12 @@
  * Copyright holder is ArangoDB GmbH, Cologne, Germany
  */
 
-package com.arangodb.spring.demo.runner;
+package com.mapviewer.runner;
 
-import com.arangodb.spring.demo.entity.Location;
-import com.arangodb.spring.demo.repository.LocationRepository;
+import com.mapviewer.entity.Location;
+import com.mapviewer.repository.LocationRepository;
+import com.mapviewer.utils.D3ColorSchemes;
+import com.mapviewer.utils.MaterialIcons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -54,16 +56,18 @@ public class GeospatialRunner implements CommandLineRunner {
     public void run(final String... args) throws Exception {
         System.out.println("# Geospatial");
         LocalDateTime createdAt = LocalDateTime.now();
+        var color = D3ColorSchemes.SCHEME_CATEGORY_10.get(0);
+        var icon = MaterialIcons.ICONS.get(0);
 
         repository.saveAll(Arrays.asList(
-                new Location("Dragonstone", createdAt, new Point(-6.815096, 55.167801)),
-                new Location("King's Landing", createdAt,  new Point(18.110189, 42.639752)),
-                new Location("The Red Keep", createdAt,    new Point(14.446442, 35.896447)),
-                new Location("Yunkai", createdAt,          new Point(-7.129532, 31.046642)),
-                new Location("Astapor", createdAt,         new Point(-9.774249, 31.50974)),
-                new Location("Winterfell", createdAt,      new Point(-5.581312, 54.368321)),
-                new Location("Vaes Dothrak", createdAt,    new Point(-6.096125, 54.16776)),
-                new Location("Beyond the wall", createdAt, new Point(-21.094093, 64.265473))
+                new Location("Dragonstone", color, icon, createdAt, new Point(-6.815096, 55.167801)),
+                new Location("King's Landing", color, icon, createdAt,  new Point(18.110189, 42.639752)),
+                new Location("The Red Keep", color, icon, createdAt,    new Point(14.446442, 35.896447)),
+                new Location("Yunkai", color, icon, createdAt,          new Point(-7.129532, 31.046642)),
+                new Location("Astapor", color, icon, createdAt,         new Point(-9.774249, 31.50974)),
+                new Location("Winterfell", color, icon, createdAt,      new Point(-5.581312, 54.368321)),
+                new Location("Vaes Dothrak", color, icon, createdAt,    new Point(-6.096125, 54.16776)),
+                new Location("Beyond the wall", color, icon, createdAt, new Point(-21.094093, 64.265473))
         ));
 
         System.out.println("## Find the first 5 locations near 'Winterfell'");

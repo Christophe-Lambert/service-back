@@ -18,14 +18,8 @@
  * Copyright holder is ArangoDB GmbH, Cologne, Germany
  */
 
-package com.arangodb.spring.demo;
+package com.mapviewer;
 
-import com.arangodb.spring.demo.runner.AQLRunner;
-import com.arangodb.spring.demo.runner.ByExampleRunner;
-import com.arangodb.spring.demo.runner.CrudRunner;
-import com.arangodb.spring.demo.runner.DerivedQueryRunner;
-import com.arangodb.spring.demo.runner.GeospatialRunner;
-import com.arangodb.spring.demo.runner.RelationsRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -33,7 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Mark Vollmary
  */
 @SpringBootApplication
-public class DemoApplication {
+public class MapViewerApplication {
     /*public static void main(final String... args) {
         final Class<?>[] runner = new Class<?>[]{
                 CrudRunner.class,
@@ -46,6 +40,6 @@ public class DemoApplication {
         System.exit(SpringApplication.exit(SpringApplication.run(runner, args)));
     }*/
     public static void main(final String... args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(MapViewerApplication.class, args);
     }
 }

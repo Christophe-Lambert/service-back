@@ -18,10 +18,10 @@
  * Copyright holder is ArangoDB GmbH, Cologne, Germany
  */
 
-package com.arangodb.spring.demo.repository;
+package com.mapviewer.repository;
 
 import com.arangodb.ArangoCursor;
-import com.arangodb.spring.demo.entity.Character;
+import com.mapviewer.entity.Character;
 import com.arangodb.springframework.annotation.BindVars;
 import com.arangodb.springframework.annotation.Query;
 import com.arangodb.springframework.annotation.QueryOptions;

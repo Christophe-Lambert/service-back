@@ -1,4 +1,4 @@
-package com.arangodb.spring.demo.config;
+package com.mapviewer.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

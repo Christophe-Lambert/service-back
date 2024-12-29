@@ -1,7 +1,7 @@
-package com.arangodb.spring.demo.controller;
+package com.mapviewer.controller;
 
-import com.arangodb.spring.demo.entity.Location;
-import com.arangodb.spring.demo.service.LocationService;
+import com.mapviewer.entity.Location;
+import com.mapviewer.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.data.geo.Polygon;
@@ -23,13 +23,13 @@ public class LocationController {
     }
 
     @PostMapping("/startPositions")
-    public Mono<Void> startGeneratingPositions(@RequestParam String name) {
-        return locationService.startAddPositions(name);
+    public Mono<Void> startGeneratingPositions(@RequestParam String name, @RequestParam String color, @RequestParam String icon) {
+        return locationService.startAddPositions(name, color, icon);
     }
 
     @PostMapping("/addPosition")
-    public void addPosition(@RequestParam String name) {
-        locationService.addPosition(name);
+    public void addPosition(@RequestParam String name, @RequestParam String color, @RequestParam String icon) {
+        locationService.addPosition(name, color, icon);
     }
 
     @GetMapping("/near")

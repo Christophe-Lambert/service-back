@@ -18,10 +18,12 @@
  * Copyright holder is ArangoDB GmbH, Cologne, Germany
  */
 
-package com.arangodb.spring.demo.entity;
+package com.mapviewer.entity;
 
 import com.arangodb.springframework.annotation.Document;
 import com.arangodb.springframework.annotation.GeoIndexed;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 
@@ -32,43 +34,30 @@ import java.util.Objects;
  * @author
  */
 @Document("locations")
+@Getter
+@Setter
 public class Location {
-
     @Id
     private String id;
 
     private final String name;
+
+    private final String color;
+
+    private final String icon;
 
     private final LocalDateTime createdAt;
 
     @GeoIndexed(geoJson = true)
     private final Point location;
 
-    public Location(final String name, LocalDateTime createdAt, final Point location) {
+    public Location(final String name, final String color, final String icon, LocalDateTime createdAt, final Point location) {
         super();
         this.name = name;
         this.createdAt = createdAt;
         this.location = location;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Point getLocation() {
-        return location;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+        this.color = color;
+        this.icon = icon;
     }
 
     @Override

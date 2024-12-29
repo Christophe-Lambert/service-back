@@ -18,9 +18,9 @@
  * Copyright holder is ArangoDB GmbH, Cologne, Germany
  */
 
-package com.arangodb.spring.demo.repository;
+package com.mapviewer.repository;
 
-import com.arangodb.spring.demo.entity.Location;
+import com.mapviewer.entity.Location;
 import com.arangodb.springframework.repository.ArangoRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Range;

@@ -1,6 +1,6 @@
-package com.arangodb.spring.demo.controller;
+package com.mapviewer.controller;
 
-import com.arangodb.spring.demo.entity.Location;
+import com.mapviewer.entity.Location;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 

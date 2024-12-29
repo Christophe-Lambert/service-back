@@ -1,7 +1,7 @@
-package com.arangodb.spring.demo.service;
+package com.mapviewer.service;
 
-import com.arangodb.spring.demo.entity.Location;
-import com.arangodb.spring.demo.repository.LocationRepository;
+import com.mapviewer.entity.Location;
+import com.mapviewer.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Range;
@@ -43,9 +43,9 @@ public class LocationService {
      * @param name Le nom de la location
      * @return Un Mono vide pour indiquer que l'opération est lancée
      */
-    public Mono<Void> startAddPositions(String name) {
+    public Mono<Void> startAddPositions(String name, String color, String icon) {
         // Démarre l'exécution de addPositions de manière asynchrone
-        return Mono.fromRunnable(() -> addPositions(name));
+        return Mono.fromRunnable(() -> addPositions(name, color, icon));
     }
 
     /**
@@ -54,14 +54,14 @@ public class LocationService {
      *
      * @param name Le nom de la location
      */
-    public void addPositions(String name) {
+    public void addPositions(String name, String color, String icon) {
         // Exécution dans un thread séparé pour ne pas bloquer le processus principal
         executorService.submit(() -> {
             for (int i = 0; i < 10; i++) { // 10 fois pour 30 secondes (toutes les 3 secondes)
                 double[] newCoords = getRandomCoordinates(PARIS_LAT, PARIS_LON, MAX_RADIUS_KM);
                 double newLat = newCoords[0];
                 double newLon = newCoords[1];
-                Location location = new Location(name, LocalDateTime.now(), new Point(newLon, newLat));
+                Location location = new Location(name, color, icon, LocalDateTime.now(), new Point(newLon, newLat));
 
                 // Enregistrer dans la base de données
                 repository.save(location);
@@ -115,8 +115,8 @@ public class LocationService {
                 .collect(Collectors.toList());
     }
 
-    public void addPosition(String name) {
-        repository.save(new Location(name, LocalDateTime.now(), new Point(-6.815096, 55.167801)));
+    public void addPosition(String name, String color, String icon) {
+        repository.save(new Location(name, color, icon, LocalDateTime.now(), new Point(-6.815096, 55.167801)));
     }
 
     public List<Location> findFirst5LocationsNear(Point point) {
