@@ -1558,7 +1558,5 @@ Multi-colors
 Tables
 IA LLM
 Detailed pointer (adresse postale)
-
-
-
+Zone de presence
 Proximité
