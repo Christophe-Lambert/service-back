@@ -6,7 +6,7 @@ services:
     environment:
       ARANGO_ROOT_PASSWORD: rootpassword
     ports:
-      - 8529:8529
+      - "8529:8529"
     volumes:
       - arangodb_data_container:/var/lib/arangodb3
       - arangodb_apps_data_container:/var/lib/arangodb3-apps
@@ -15,12 +15,29 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
+      - ai_analysis_service  # Ne plus spécifier service_healthy, cela permet à Spring Boot de démarrer sans attendre le healthcheck
       - arangodb_db_container
     ports:
       - "8080:8080"
       - "8443:8443"
     volumes:
       - D:\Projects\test-angular\service-back\src\main\resources\application-docker.properties:/app/config/application.properties
+  ai_analysis_service:
+    build:
+      context: .
+      dockerfile: DockerfilePython
+    container_name: ai_analysis_service
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DB_HOST=arangodb_db_container
+      - DB_PORT=8529
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=spring-demo
+    depends_on:
+      - arangodb_db_container
+    ports:
+      - "5000:5000"
 volumes:
   arangodb_data_container:
     external: true

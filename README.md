@@ -1557,6 +1557,7 @@ ssh -T git@github.com
 Multi-colors
 Tables
 IA LLM
+Réponse asynchrone
 Detailed pointer (adresse postale)
 Zone de presence
 Proximité

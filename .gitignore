@@ -1,2 +1,12 @@
 /.idea/
 /target/
+/certbot-3.0.1.tar.gz
+/certbot_dns_cloudflare-3.0.1.tar.gz
+/certbot_dns_google-3.0.1.tar.gz
+/keystore-vm.p12
+/src/main/resources/application.properties.local.ssl
+/src/main/resources/application.properties.vm
+/src/main/resources/application.properties.vm.ssl
+/src/main/resources/application-docker.properties
+/src/main/resources/keystore-vm.p12
+/update_dns.bat

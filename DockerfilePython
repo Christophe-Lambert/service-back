@@ -1,0 +1,25 @@
+FROM python:3.10-slim
+
+# Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    g++ \
+    python3-dev \
+    libopenblas-dev \
+    liblapack-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Définir le dossier de travail
+WORKDIR /app
+
+# Copier uniquement le fichier requirements.txt (pour maximiser l'utilisation du cache)
+COPY ai_service/requirements.txt /app/requirements.txt
+
+# Installer les dépendances Python (si le fichier requirements.txt n'a pas changé, cette étape est mise en cache)
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+# Copier le reste des fichiers nécessaires
+COPY ai_service/ /app/
+
+# Définir la commande par défaut
+CMD ["python", "main.py"]
