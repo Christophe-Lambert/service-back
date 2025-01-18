@@ -61,10 +61,14 @@ public class LocationService {
                 double[] newCoords = getRandomCoordinates(PARIS_LAT, PARIS_LON, MAX_RADIUS_KM);
                 double newLat = newCoords[0];
                 double newLon = newCoords[1];
-                Location location = new Location(name, color, icon, LocalDateTime.now(), new Point(newLon, newLat));
+                var time = LocalDateTime.now();
+                Location location = new Location(name, color, icon, time, new Point(newLon, newLat));
 
                 // Enregistrer dans la base de données
                 repository.save(location);
+                var locationNew= new Location(name + "-bis", color, icon, time, new Point(newLon, newLat));
+
+                repository.save(locationNew);
 
                 // Envoyer au topic WebSocket
                 messagingTemplate.convertAndSend("/topic/locations", location);

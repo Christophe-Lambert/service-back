@@ -22,8 +22,7 @@ package com.mapviewer.entity;
 
 import com.arangodb.springframework.annotation.Document;
 import com.arangodb.springframework.annotation.GeoIndexed;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 
@@ -34,8 +33,7 @@ import java.util.Objects;
  * @author
  */
 @Document("locations")
-@Getter
-@Setter
+@Data
 public class Location {
     @Id
     private String id;

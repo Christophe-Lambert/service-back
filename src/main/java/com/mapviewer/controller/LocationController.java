@@ -2,7 +2,7 @@ package com.mapviewer.controller;
 
 import com.mapviewer.entity.Location;
 import com.mapviewer.service.LocationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.geo.Point;
 import org.springframework.data.geo.Polygon;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/locations")
+@RequiredArgsConstructor
 public class LocationController {
-
-    @Autowired
-    private LocationService locationService;
+    private final LocationService locationService;
 
     @GetMapping("/all")
     public List<Location> getAllLocations() {
